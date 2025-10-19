@@ -10,7 +10,6 @@ A full-stack, customizable e-commerce platform for jewelry stores built with Pyt
 - [Getting Started](#getting-started)
   - [Prerequisites](#prerequisites)
   - [Installation & Setup](#installation--setup)
-- [Project Structure](#project-structure)
 - [Usage](#usage)
 
 ## Project Overview
@@ -95,6 +94,14 @@ Follow these instructions to get a local copy of the project up and running on y
     ```
     The application will be running at `http://127.0.0.1:5000`. The first time you run it, it will automatically create a `pearlbox.db` file in an `instance` folder.
 
-## Project Structure
+## Usage
 
-The project is organized in a modular way to separate concerns and improve maintainability.
+1.  Register a new user through the registration page.
+2.  To create an admin user, you can manually run the provided script.
+    * First, find the email of the user you just created.
+    * Run the script from your terminal:
+        ```bash
+        python update_admin.py
+        ```
+    * When prompted, enter the email address of the user you want to make an admin.
+3.  Log in as the admin user to access the "Admin" link in the navigation bar. From there, you can add, edit, and delete products and manage orders.
