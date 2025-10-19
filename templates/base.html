@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Pearl Box</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- CSS Stylesheet -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body class="{{ request.endpoint }}-page">
+    <nav>
+        <div class="nav-left">
+            <a href="{{ url_for('index') }}">Pearl Box</a>
+        </div>
+        <div class="nav-right">
+            <a href="{{ url_for('index') }}">Home</a>
+            <a href="{{ url_for('shop') }}">Shop</a>
+            {% if current_user.is_authenticated %}
+                <a href="{{ url_for('dashboard') }}">Dashboard</a>
+                {% if current_user.role == 'admin' %}
+                    <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Logout</a>
+            {% else %}
+                <a href="{{ url_for('login') }}">Login</a>
+                <a href="{{ url_for('register') }}">Register</a>
+            {% endif %}
+            <a href="{{ url_for('contact') }}">Contact Us</a>
+        </div>
+        <!-- Mobile Navigation Toggle Button (visible on small screens via media query) -->
+        <button id="nav-toggle">☰</button>
+    </nav>
+    
+    <!-- Mobile Navigation Menu (hidden by default, toggled via JavaScript) -->
+    <div id="nav-menu">
+        <a href="{{ url_for('index') }}">Home</a>
+        <a href="{{ url_for('shop') }}">Shop</a>
+        {% if current_user.is_authenticated %}
+            <a href="{{ url_for('dashboard') }}">Dashboard</a>
+            {% if current_user.role == 'admin' %}
+                <a href="{{ url_for('admin_dashboard') }}">Admin</a>
+            {% endif %}
+            <a href="{{ url_for('logout') }}">Logout</a>
+        {% else %}
+            <a href="{{ url_for('login') }}">Login</a>
+            <a href="{{ url_for('register') }}">Register</a>
+        {% endif %}
+        <a href="{{ url_for('contact') }}">Contact Us</a>
+    </div>
+    
+    <div class="container">
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <ul class="flashes">
+              {% for category, message in messages %}
+                <li class="{{ category }}">{{ message }}</li>
+              {% endfor %}
+            </ul>
+          {% endif %}
+        {% endwith %}
+        {% block content %}{% endblock %}
+    </div>
+
+    <!-- Scroll-to-Top Button -->
+    <button id="scroll-to-top">↑ Top</button>
+    
+    <!-- JavaScript File -->
+    <script src="{{ url_for('static', filename='scripts.js') }}"></script>
+</body>
+</html>

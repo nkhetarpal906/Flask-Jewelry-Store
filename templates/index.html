@@ -1,0 +1,29 @@
+{% extends "base.html" %}
+{% block content %}
+    <!-- Hero Section -->
+    <section class="hero">
+        
+    </section>
+    <!-- Best Sellers Gallery -->
+    <section class="gallery">
+        <h2>Best Sellers</h2>
+        <div class="products">
+            {% for product in products %}
+            <div class="product fade-in">
+                <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+                <h3>{{ product.name }}</h3>
+                <p>${{ product.price }}</p>
+                <a href="{{ url_for('product_detail', product_id=product.id) }}">View Details</a>
+            </div>
+            {% endfor %}
+        </div>
+    </section>
+    <!-- Mission Video Section -->
+    <section class="video">
+        <h2>Our Mission</h2>
+        <video controls>
+            <source src="{{ url_for('static', filename='videos/mission.mp4') }}" type="video/mp4">
+            Your browser does not support the video tag.
+        </video>
+    </section>
+{% endblock %}

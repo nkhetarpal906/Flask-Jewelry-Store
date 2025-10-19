@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% block content %}
+    <h1>Shop</h1>
+    <form method="get" action="{{ url_for('shop') }}">
+        <label for="category">Filter by Category:</label>
+        <select name="category" id="category">
+            <option value="">All</option>
+            <option value="earrings">Earrings</option>
+            <option value="necklaces">Necklaces</option>
+            <option value="rings">Rings</option>
+            <option value="bracelets">Bracelets</option>
+        </select>
+        <label for="sort_by">Sort by:</label>
+        <select name="sort_by" id="sort_by">
+            <option value="">Default</option>
+            <option value="price_asc">Price: Low to High</option>
+            <option value="price_desc">Price: High to Low</option>
+            <option value="new">New Arrivals</option>
+        </select>
+        <button type="submit">Apply</button>
+    </form>
+    <div class="products">
+        {% for product in products %}
+        <div class="product fade-in">
+            <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+            <h3>{{ product.name }}</h3>
+            <p>${{ product.price }}</p>
+            <a href="{{ url_for('product_detail', product_id=product.id) }}">View Details</a>
+        </div>
+        {% endfor %}
+    </div>
+{% endblock %}

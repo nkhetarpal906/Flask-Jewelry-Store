@@ -1,0 +1,15 @@
+{% extends "base.html" %}
+{% block content %}
+    <div class="product-detail">
+        <img src="{{ url_for('static', filename=product.image) }}" alt="{{ product.name }}">
+        <h1>{{ product.name }}</h1>
+        <p>{{ product.description }}</p>
+        <p>Price: ${{ product.price }}</p>
+        <p>Stock: {{ product.stock }}</p>
+        <form method="post">
+            <label for="quantity">Quantity:</label>
+            <input type="number" name="quantity" id="quantity" value="1" min="1" max="{{ product.stock }}">
+            <button type="submit">Place Order</button>
+        </form>
+    </div>
+{% endblock %}
