@@ -1,1 +1,100 @@
-Project Documentation: A Customizable E-commerce Platform for Jewelry Brands1. Project OverviewThis project is a full-stack e-commerce web application that serves as a versatile and customizable platform for launching an online jewelry store. Originally developed as a demo for a company called "Pearl Box," the application is designed to be easily adapted for any jewelry brand with minimal effort. It provides a scalable and secure online presence, enabling a business to expand its market reach and streamline sales operations.The application replaces a traditional, manual ordering system with a dynamic, web-based solution featuring automated ordering, intuitive product browsing with advanced filtering, secure user registration, and a comprehensive admin panel for site management. The platform is built on a foundation of modern web technologies, including Flask for the backend, SQLAlchemy for database management, and standard HTML/CSS for the front-end. It integrates advanced programming concepts, including abstraction, encapsulation, modular design, nested logic, and efficient sorting and searching algorithms to deliver a robust user experience.2. Technical Architecture and DesignThe application follows a modular design pattern, which was crucial for managing complexity and promoting code reusability. The project is partitioned into distinct modules, each responsible for a specific functionality:app.py: The main application entry point, responsible for initializing the Flask application, database, and other extensions like Flask-Login and Flask-Mail.config.py: Centralized configuration for managing environment variables, database URIs, secret keys, and email server settings.models.py: Defines the database schema using SQLAlchemy ORM, encapsulating the data structures for Users, Products, and Orders.routes.py: Handles all HTTP request routing and business logic. This module defines the application's endpoints and connects user actions to backend processes.forms.py: Manages all form creation and validation using Flask-WTF, ensuring data integrity for user registration, login, and product management.email_service.py: Encapsulates the functionality for sending transactional emails, such as order confirmations and admin notifications.templates/: Contains all Jinja2 HTML templates for rendering dynamic web pages.static/: Stores all static assets, including CSS stylesheets, JavaScript files, and images.This modular structure isolates concerns, which simplifies debugging, enhances maintainability, and allows for easier future development.3. Core Features and ComplexitiesThe development of this platform involved addressing several technical complexities to ensure a secure, reliable, and user-friendly experience.a. Data Consistency and Transaction ManagementA key challenge was managing data consistency, particularly with real-time stock updates. When a user places an order, the stock for the purchased product must be atomically decremented. This was achieved by leveraging SQLAlchemy's session management to handle database transactions. All CRUD (Create, Read, Update, Delete) operations are managed as atomic transactions, ensuring that the database remains in a consistent state even during concurrent operations. For example, the db.session.commit() command is used to finalize the transaction of deducting stock and creating an order simultaneously, preventing partial updates.b. Security: Authentication and Role-Based Access ControlSecurity is enforced through a multi-layered approach. User authentication is managed by Flask-Login, which handles session management securely. Furthermore, role-based access control is implemented to restrict access to sensitive areas like the admin panel. A custom decorator, @admin_required, was created to verify that a user is both authenticated and has the 'admin' role before allowing access to administrative routes, thus safeguarding critical functionalities.c. Dynamic Content and Parameterized URL RoutingThe application makes extensive use of dynamic URL routing to render content based on URL parameters. For instance, the route /product/<int:product_id> displays a product's detail page by extracting the product_id from the URL, querying the database for that specific product, and rendering a template with its details. This required careful error handling, such as using get_or_404() to gracefully manage cases where a product is not found, thereby preventing application crashes and improving user experience.d. Advanced Searching and Sorting AlgorithmsTo enhance product discovery, the shop page features dynamic sorting and filtering capabilities. Users can sort products by price (ascending or descending) and recency, and filter them by category. This functionality is implemented by dynamically constructing SQLAlchemy queries based on user-supplied URL parameters. The complexity lies in composing these queries with multiple conditional clauses (e.g., combining a category filter with a price sort) and optimizing them for performance to ensure a responsive interface.e. Robust Form ValidationData integrity is ensured through robust form validation using the Flask-WTF extension. Validators like DataRequired, Email, and FileAllowed are applied to each input field to enforce specific rules before data is processed. This multi-layered validation prevents malformed or malicious data from being submitted to the system, which is crucial for both security and data consistency.f. File Upload and ProcessingThe admin panel allows for dynamic product creation and updates, including image uploads. This feature involves securely handling file I/O operations. The secure_filename function is used to sanitize filenames to prevent security vulnerabilities, and files are saved to a designated upload folder while their relative paths are stored in the database. This ensures that product images are managed securely and efficiently.g. Responsive and Interactive FrontendThe user interface is designed to be fully responsive, adapting to various screen sizes from mobile devices to desktops. This is achieved using CSS media queries, which apply conditional styling rules based on the viewport width to adjust layouts, navigation elements, and font sizes. Interactivity is further enhanced with lightweight JavaScript for features like a mobile navigation toggle, a scroll-to-top button, and fade-in animations, providing a smooth and modern user experience.4. ConclusionThis e-commerce platform stands as a robust and feature-rich application that successfully automates and modernizes the sales process for any jewelry business. By addressing key complexities in data management, security, and user experience, it provides a scalable foundation for online retail. The project's modular design and adherence to best practices make it not only a powerful, customizable tool for any jewelry brand but also an excellent demonstration of advanced web development techniques.
+# Flask Jewelry Store - A Customizable E-commerce Platform
+
+A full-stack, customizable e-commerce platform for jewelry stores built with Python and Flask. Features product management, user authentication, and an admin dashboard.
+
+## Table of Contents
+
+- [Project Overview](#project-overview)
+- [Key Features](#key-features)
+- [Tech Stack](#tech-stack)
+- [Getting Started](#getting-started)
+  - [Prerequisites](#prerequisites)
+  - [Installation & Setup](#installation--setup)
+- [Project Structure](#project-structure)
+- [Usage](#usage)
+
+## Project Overview
+
+This project is a complete and scalable e-commerce web application designed to serve as a versatile template for any online jewelry store. While originally a demo for a brand named "Pearl Box," its modular design allows for easy customization of the branding, products, and style.
+
+The platform replaces a manual ordering system with a dynamic, web-based solution that automates the sales process. It is built on a foundation of modern web technologies and integrates advanced programming concepts like modular design, object-relational mapping (ORM), and secure authentication protocols to deliver a robust user experience.
+
+## Key Features
+
+**Customer-Facing Features:**
+
+* **User Authentication:** Secure user registration and login functionality.
+* **Product Catalog:** A responsive shop page to display all products, with options for filtering by category.
+* **Sorting Capabilities:** Users can sort products by price (low to high, high to low) or by new arrivals.
+* **Product Details Page:** Individual pages for each product with detailed descriptions, images, and pricing.
+* **Simple Ordering Process:** A streamlined process for authenticated users to purchase products.
+* **User Dashboard:** A personal dashboard for users to view their order history and track the status of their purchases.
+
+**Administrative Features:**
+
+* **Admin Dashboard:** A comprehensive admin panel for site administrators to manage the store.
+* **Full CRUD for Products:** Admins can easily Create, Read, Update, and Delete products in the catalog.
+* **Order Management:** View all customer orders and update their status (e.g., mark as "Delivered").
+* **Secure Access:** The admin panel is protected and only accessible to users with the 'admin' role.
+
+**Technical Features:**
+
+* **Email Notifications:** Automated email confirmations are sent to users upon placing an order, and a notification is sent to the admin for each new sale.
+* **Responsive Design:** The front-end is designed to be fully responsive, providing an optimal viewing experience on desktops, tablets, and mobile devices.
+* **Modular & Scalable:** The codebase is organized into logical modules (e.g., models, routes, forms), making it easy to maintain and extend.
+
+## Tech Stack
+
+* **Backend:** Python, Flask
+* **Database:** SQLite (with SQLAlchemy ORM)
+* **Frontend:** HTML, CSS, JavaScript, Jinja2 Templating
+* **Flask Extensions:**
+    * Flask-SQLAlchemy for database interaction.
+    * Flask-Login for managing user sessions.
+    * Flask-WTF for secure form handling and validation.
+    * Flask-Mail for sending emails.
+
+## Getting Started
+
+Follow these instructions to get a local copy of the project up and running on your machine for development and testing purposes.
+
+### Prerequisites
+
+* Python 3.6+
+* pip package manager
+* Git for version control
+
+### Installation & Setup
+
+1.  Clone the repository:
+    ```bash
+    git clone [https://github.com/nkhetarpal906/Flask-Jewelry-Store.git](https://github.com/nkhetarpal906/Flask-Jewelry-Store.git)
+    cd Flask-Jewelry-Store
+    ```
+
+2.  Create and activate a virtual environment:
+    * **Windows:**
+        ```bash
+        python -m venv venv
+        .\venv\Scripts\activate
+        ```
+    * **macOS / Linux:**
+        ```bash
+        python3 -m venv venv
+        source venv/bin/activate
+        ```
+
+3.  Install the required packages:
+    ```bash
+    pip install -r requirements.txt
+    ```
+
+4.  Run the application:
+    ```bash
+    python app.py
+    ```
+    The application will be running at `http://127.0.0.1:5000`. The first time you run it, it will automatically create a `pearlbox.db` file in an `instance` folder.
+
+## Project Structure
+
+The project is organized in a modular way to separate concerns and improve maintainability.
